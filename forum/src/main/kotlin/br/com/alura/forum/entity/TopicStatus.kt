@@ -1,4 +1,4 @@
-package br.com.alura.forum.model
+package br.com.alura.forum.entity
 
 enum class TopicStatus {
     NOT_ANSWERED,
