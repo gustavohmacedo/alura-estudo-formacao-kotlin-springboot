@@ -8,9 +8,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
-@RequestMapping("/topicos")
+@RequestMapping("/topics")
 class TopicController(
     private val topicService: TopicService,
 ) {
@@ -18,7 +19,7 @@ class TopicController(
     @PostMapping
     @Transactional
     fun saveTopic(
-        @RequestBody form: TopicForm,
+        @RequestBody @Valid form: TopicForm,
     ): ResponseEntity<TopicView> {
         val topicView = topicService.save(form)
         return ResponseEntity.status(HttpStatus.CREATED).body(topicView)
@@ -39,7 +40,7 @@ class TopicController(
     @PutMapping("/{id}")
     @Transactional
     fun updateTopic(
-        @RequestBody form: TopicFormUpdate,
+        @RequestBody @Valid form: TopicFormUpdate,
         @PathVariable id: Long,
     ): ResponseEntity<TopicView> {
         val topicView = topicService.update(id, form)

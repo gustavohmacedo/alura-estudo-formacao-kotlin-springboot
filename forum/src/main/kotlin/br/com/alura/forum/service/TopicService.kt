@@ -16,6 +16,7 @@ class TopicService(
     private val topicRepository: TopicRepository,
     private val topicFormMapper: TopicFormMapper,
     private val topicViewMapper: TopicViewMapper,
+    private val notFoundMessage: String = "Topic not found!"
 ) {
 
     fun save(form: TopicForm): TopicView {
@@ -34,13 +35,13 @@ class TopicService(
 
     fun getById(id: Long): TopicView {
         val topic: Topic = topicRepository
-            .findById(id).orElseThrow { NotFoundException("Topic is not found!") }
+            .findById(id).orElseThrow { NotFoundException(notFoundMessage) }
         return topicViewMapper.map(topic)
     }
 
     fun update(id: Long, form: TopicFormUpdate): TopicView {
         val topic: Topic = topicRepository
-            .findById(id).orElseThrow { NotFoundException("Topic is not found!") }
+            .findById(id).orElseThrow { NotFoundException(notFoundMessage) }
         topic.title = form.title
         topic.message = form.message
         topicRepository.save(topic)
@@ -49,7 +50,7 @@ class TopicService(
 
     fun delete(id: Long) {
         val topic: Topic = topicRepository
-            .findById(id).orElseThrow { NotFoundException("Topic is not found!") }
+            .findById(id).orElseThrow { NotFoundException(notFoundMessage) }
         topicRepository.delete(topic)
     }
 }
