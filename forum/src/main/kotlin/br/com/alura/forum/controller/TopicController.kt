@@ -4,6 +4,10 @@ import br.com.alura.forum.dto.TopicForm
 import br.com.alura.forum.dto.TopicFormUpdate
 import br.com.alura.forum.dto.TopicView
 import br.com.alura.forum.service.TopicService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
@@ -27,9 +31,16 @@ class TopicController(
 
     @GetMapping
     fun getAllTopics(
-        @RequestParam(required = false) nameCourse: String?
-    ): ResponseEntity<List<TopicView>> {
-        return ResponseEntity.status(HttpStatus.OK).body(topicService.getAll(nameCourse))
+        @RequestParam(required = false) nameCourse: String?,
+        @PageableDefault(
+            size = 5, sort = ["creationDate"],
+            direction = Sort.Direction.DESC
+        ) pagination: Pageable,
+    ): ResponseEntity<Page<TopicView>> {
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
+                topicService.getAll(nameCourse, pagination)
+            )
     }
 
     @GetMapping("/{id}")
