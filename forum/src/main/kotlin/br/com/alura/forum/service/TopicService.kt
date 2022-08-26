@@ -25,12 +25,17 @@ class TopicService(
         return topicViewMapper.map(topic)
     }
 
-    fun getAll(): List<TopicView> {
-        return topicRepository
-            .findAll().stream()
-            .map { it ->
-                topicViewMapper.map(it)
-            }.collect(Collectors.toList())
+    fun getAll(
+        nameCourse: String?,
+    ): List<TopicView> {
+        val topics = if (nameCourse == null) {
+            topicRepository.findAll()
+        } else {
+            topicRepository.findByCourseName(nameCourse)
+        }
+        return topics.stream().map { it ->
+            topicViewMapper.map(it)
+        }.collect(Collectors.toList())
     }
 
     fun getById(id: Long): TopicView {

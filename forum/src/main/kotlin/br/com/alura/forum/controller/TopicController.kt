@@ -26,8 +26,10 @@ class TopicController(
     }
 
     @GetMapping
-    fun getAllTopics(): ResponseEntity<List<TopicView>> {
-        return ResponseEntity.status(HttpStatus.OK).body(topicService.getAll())
+    fun getAllTopics(
+        @RequestParam(required = false) nameCourse: String?
+    ): ResponseEntity<List<TopicView>> {
+        return ResponseEntity.status(HttpStatus.OK).body(topicService.getAll(nameCourse))
     }
 
     @GetMapping("/{id}")
