@@ -1,5 +1,6 @@
 package br.com.alura.forum.controller
 
+import br.com.alura.forum.dto.TopicByCategoryDto
 import br.com.alura.forum.dto.TopicForm
 import br.com.alura.forum.dto.TopicFormUpdate
 import br.com.alura.forum.dto.TopicView
@@ -67,6 +68,11 @@ class TopicController(
         @PathVariable id: Long,
     ) {
         topicService.delete(id)
+    }
+
+    @GetMapping("/report")
+    fun getTopicsQuantityByCategory(): ResponseEntity<List<TopicByCategoryDto>> {
+        return ResponseEntity.status(HttpStatus.OK).body(topicService.getReport())
     }
 
 }

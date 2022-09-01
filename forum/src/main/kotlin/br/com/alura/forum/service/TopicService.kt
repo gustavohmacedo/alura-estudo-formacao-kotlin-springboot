@@ -1,5 +1,6 @@
 package br.com.alura.forum.service
 
+import br.com.alura.forum.dto.TopicByCategoryDto
 import br.com.alura.forum.dto.TopicForm
 import br.com.alura.forum.dto.TopicFormUpdate
 import br.com.alura.forum.dto.TopicView
@@ -60,5 +61,9 @@ class TopicService(
         val topic: Topic = topicRepository
             .findById(id).orElseThrow { NotFoundException(notFoundMessage) }
         topicRepository.delete(topic)
+    }
+
+    fun getReport(): List<TopicByCategoryDto> {
+        return topicRepository.getReportTopicsQuantityByCategory()
     }
 }
