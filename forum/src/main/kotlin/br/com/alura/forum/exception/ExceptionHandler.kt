@@ -1,6 +1,6 @@
 package br.com.alura.forum.exception
 
-import br.com.alura.forum.dto.ErrorView
+import br.com.alura.forum.dto.ApiErrorResponseDTO
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -16,8 +16,8 @@ class ExceptionHandler {
     fun handleNotFound(
         exception: NotFoundException,
         request: HttpServletRequest,
-    ): ErrorView {
-        return ErrorView(
+    ): ApiErrorResponseDTO {
+        return ApiErrorResponseDTO(
             status = HttpStatus.NOT_FOUND.value(),
             error = HttpStatus.NOT_FOUND.name,
             message = exception.message!!,
@@ -31,8 +31,8 @@ class ExceptionHandler {
     fun handleServerError(
         exception: Exception,
         request: HttpServletRequest,
-    ): ErrorView {
-        return ErrorView(
+    ): ApiErrorResponseDTO {
+        return ApiErrorResponseDTO(
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
             error = HttpStatus.INTERNAL_SERVER_ERROR.name,
             message = exception.message!!,
@@ -46,13 +46,13 @@ class ExceptionHandler {
     fun handleValidationError(
         exception: MethodArgumentNotValidException,
         request: HttpServletRequest,
-    ): ErrorView {
+    ): ApiErrorResponseDTO {
         val errorMessage = HashMap<String, String?>()
         exception.bindingResult.fieldErrors
             .forEach { error ->
                 errorMessage.put(error.field, error.defaultMessage)
             }
-        return ErrorView(
+        return ApiErrorResponseDTO(
             status = HttpStatus.BAD_REQUEST.value(),
             error = HttpStatus.BAD_REQUEST.name,
             message = errorMessage.toString(),

@@ -1,10 +1,10 @@
 package br.com.alura.forum.controller
 
-import br.com.alura.forum.dto.TopicByCategoryDto
-import br.com.alura.forum.dto.TopicForm
-import br.com.alura.forum.dto.TopicFormUpdate
-import br.com.alura.forum.dto.TopicView
-import br.com.alura.forum.service.TopicService
+import br.com.alura.forum.dto.TopicByCategoryResponseDTO
+import br.com.alura.forum.dto.TopicRequestDTO
+import br.com.alura.forum.dto.TopicUpdateRequestDTO
+import br.com.alura.forum.dto.TopicResponseDTO
+import br.com.alura.forum.service.impl.TopicServiceImpl
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/topics")
+@RequestMapping("/api/topics")
 class TopicController(
-    private val topicService: TopicService,
+    private val topicService: TopicServiceImpl,
 ) {
 
     @PostMapping
     @Transactional
     fun saveTopic(
-        @RequestBody @Valid form: TopicForm,
-    ): ResponseEntity<TopicView> {
+        @RequestBody @Valid form: TopicRequestDTO,
+    ): ResponseEntity<TopicResponseDTO> {
         val topicView = topicService.save(form)
         return ResponseEntity.status(HttpStatus.CREATED).body(topicView)
     }
@@ -37,7 +37,7 @@ class TopicController(
             size = 5, sort = ["creationDate"],
             direction = Sort.Direction.DESC
         ) pagination: Pageable,
-    ): ResponseEntity<Page<TopicView>> {
+    ): ResponseEntity<Page<TopicResponseDTO>> {
         return ResponseEntity.status(HttpStatus.OK)
             .body(
                 topicService.getAll(nameCourse, pagination)
@@ -47,16 +47,16 @@ class TopicController(
     @GetMapping("/{id}")
     fun getTopicById(
         @PathVariable id: Long,
-    ): ResponseEntity<TopicView> {
+    ): ResponseEntity<TopicResponseDTO> {
         return ResponseEntity.status(HttpStatus.OK).body(topicService.getById(id))
     }
 
     @PutMapping("/{id}")
     @Transactional
     fun updateTopic(
-        @RequestBody @Valid form: TopicFormUpdate,
+        @RequestBody @Valid form: TopicUpdateRequestDTO,
         @PathVariable id: Long,
-    ): ResponseEntity<TopicView> {
+    ): ResponseEntity<TopicResponseDTO> {
         val topicView = topicService.update(id, form)
         return ResponseEntity.status(HttpStatus.OK).body(topicView)
     }
@@ -71,7 +71,7 @@ class TopicController(
     }
 
     @GetMapping("/report")
-    fun getTopicsQuantityByCategory(): ResponseEntity<List<TopicByCategoryDto>> {
+    fun getTopicsQuantityByCategory(): ResponseEntity<List<TopicByCategoryResponseDTO>> {
         return ResponseEntity.status(HttpStatus.OK).body(topicService.getReport())
     }
 

@@ -1,5 +1,6 @@
 package br.com.alura.forum.entity
 
+import br.com.alura.forum.enumeration.TopicStatus
 import java.time.LocalDateTime
 import javax.persistence.*
 import kotlin.collections.ArrayList
