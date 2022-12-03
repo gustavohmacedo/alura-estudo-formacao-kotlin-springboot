@@ -5,6 +5,7 @@ import br.com.alura.forum.entity.Topic
 import br.com.alura.forum.exception.NotFoundException
 import br.com.alura.forum.repository.TopicRepository
 import br.com.alura.forum.service.CourseService
+import br.com.alura.forum.service.TopicService
 import br.com.alura.forum.service.UserService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -15,15 +16,15 @@ class TopicServiceImpl(
     private val topicRepository: TopicRepository,
     private val courseService: CourseService,
     private val userService: UserService,
-    private val notFoundMessage: String = "Topic not found!"
-) {
+    private val notFoundMessage: String = "Topic not found!",
+) : TopicService {
 
-    fun save(dto: TopicRequestDTO): TopicResponseDTO {
-        val course = courseService.getById(dto.courseId)
-        val author = userService.getById(dto.authorId)
-        var topic = Topic(
-            title = dto.title,
-            message = dto.message,
+     override fun save(topicRequest: TopicRequestDTO): TopicResponseDTO {
+        val course = courseService.getById(topicRequest.courseId)
+        val author = userService.getById(topicRequest.authorId)
+        val topic = Topic(
+            title = topicRequest.title,
+            message = topicRequest.message,
             course = course.toCourseEntity(),
             author = author.toUserEntity()
         )
@@ -31,7 +32,7 @@ class TopicServiceImpl(
 
     }
 
-    fun getAll(
+    override fun getAll(
         nameCourse: String?,
         pagination: Pageable,
     ): Page<TopicResponseDTO> {
@@ -41,32 +42,30 @@ class TopicServiceImpl(
             topicRepository.findAll(pagination)
         }
         return topics.map { it ->
-            topicViewMapper.map(it)
+            it.toTopicResponseDTO()
         }
     }
 
-    fun getById(id: Long): TopicResponseDTO {
+    override fun getById(id: Long): TopicResponseDTO {
         val topic: Topic = topicRepository
             .findById(id).orElseThrow { NotFoundException(notFoundMessage) }
-        return topicViewMapper.map(topic)
+        return topic.toTopicResponseDTO()
     }
 
-    fun update(id: Long, form: TopicUpdateRequestDTO): TopicResponseDTO {
-        val topic: Topic = topicRepository
-            .findById(id).orElseThrow { NotFoundException(notFoundMessage) }
-        topic.title = form.title
-        topic.message = form.message
-        topicRepository.save(topic)
-        return topicViewMapper.map(topic)
+    override fun update(id: Long, topicUpdate: TopicUpdateRequestDTO): TopicResponseDTO {
+        val topic = this.getById(id)
+        topic.title = topicUpdate.title
+        topic.message = topicUpdate.message
+        topicRepository.save(topic.toTopicEntity())
+        return topic
     }
 
-    fun delete(id: Long) {
-        val topic: Topic = topicRepository
-            .findById(id).orElseThrow { NotFoundException(notFoundMessage) }
-        topicRepository.delete(topic)
+    override fun delete(id: Long) {
+        val topic = this.getById(id)
+        topicRepository.delete(topic.toTopicEntity())
     }
 
-    fun getReport(): List<TopicByCategoryResponseDTO> {
+    override fun getReport(): List<TopicByCategoryResponseDTO> {
         return topicRepository.getReportTopicsQuantityByCategory()
     }
 }

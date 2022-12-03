@@ -19,3 +19,11 @@ fun Topic.toTopicResponseDTO() = TopicResponseDTO(
     status = this.status!!,
     creationDate = this.creationDate!!
 )
+
+fun TopicResponseDTO.toTopicEntity() = Topic(
+    id = this.id,
+    title = this.title,
+    message = this.message,
+    creationDate = this.creationDate,
+    status = this.status
+)

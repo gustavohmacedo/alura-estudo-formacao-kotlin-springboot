@@ -16,9 +16,9 @@ data class Topic(
     @Enumerated(value = EnumType.STRING)
     val status: TopicStatus? = TopicStatus.NOT_ANSWERED,
     @ManyToOne
-    var author: User,
+    var author: User?,
     @ManyToOne
-    var course: Course,
+    var course: Course?,
     @OneToMany(mappedBy = "topic")
     val answers: List<Answer>? = ArrayList()
 )

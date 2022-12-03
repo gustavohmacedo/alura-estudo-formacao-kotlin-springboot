@@ -2,9 +2,9 @@ package br.com.alura.forum.controller
 
 import br.com.alura.forum.dto.TopicByCategoryResponseDTO
 import br.com.alura.forum.dto.TopicRequestDTO
-import br.com.alura.forum.dto.TopicUpdateRequestDTO
 import br.com.alura.forum.dto.TopicResponseDTO
-import br.com.alura.forum.service.impl.TopicServiceImpl
+import br.com.alura.forum.dto.TopicUpdateRequestDTO
+import br.com.alura.forum.service.TopicService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -18,16 +18,16 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/topics")
 class TopicController(
-    private val topicService: TopicServiceImpl,
+    private val topicService: TopicService,
 ) {
 
     @PostMapping
     @Transactional
     fun saveTopic(
-        @RequestBody @Valid form: TopicRequestDTO,
+        @RequestBody @Valid topicRequest: TopicRequestDTO,
     ): ResponseEntity<TopicResponseDTO> {
-        val topicView = topicService.save(form)
-        return ResponseEntity.status(HttpStatus.CREATED).body(topicView)
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(topicService.save(topicRequest))
     }
 
     @GetMapping
@@ -39,9 +39,7 @@ class TopicController(
         ) pagination: Pageable,
     ): ResponseEntity<Page<TopicResponseDTO>> {
         return ResponseEntity.status(HttpStatus.OK)
-            .body(
-                topicService.getAll(nameCourse, pagination)
-            )
+            .body(topicService.getAll(nameCourse, pagination))
     }
 
     @GetMapping("/{id}")
@@ -54,19 +52,17 @@ class TopicController(
     @PutMapping("/{id}")
     @Transactional
     fun updateTopic(
-        @RequestBody @Valid form: TopicUpdateRequestDTO,
+        @RequestBody @Valid topicUpdate: TopicUpdateRequestDTO,
         @PathVariable id: Long,
     ): ResponseEntity<TopicResponseDTO> {
-        val topicView = topicService.update(id, form)
-        return ResponseEntity.status(HttpStatus.OK).body(topicView)
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(topicService.update(id, topicUpdate))
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    fun deleteTopic(
-        @PathVariable id: Long,
-    ) {
+    fun deleteTopic(@PathVariable id: Long) {
         topicService.delete(id)
     }
 
