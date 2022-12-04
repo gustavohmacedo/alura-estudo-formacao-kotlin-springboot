@@ -8,16 +8,20 @@ data class TopicResponseDTO(
     val id: Long,
     var title: String,
     var message: String,
-    val status: TopicStatus,
     val creationDate: LocalDateTime,
+    val status: TopicStatus,
+    val author: UserResponseDTO,
+    val course: CourseResponseDTO
 )
 
 fun Topic.toTopicResponseDTO() = TopicResponseDTO(
     id = this.id!!,
     title = this.title,
     message = this.message,
+    creationDate = this.creationDate!!,
     status = this.status!!,
-    creationDate = this.creationDate!!
+    author = this.author.toUserResponseDTO(),
+    course = this.course.toCourseResponseDTO()
 )
 
 fun TopicResponseDTO.toTopicEntity() = Topic(
@@ -25,5 +29,7 @@ fun TopicResponseDTO.toTopicEntity() = Topic(
     title = this.title,
     message = this.message,
     creationDate = this.creationDate,
-    status = this.status
+    status = this.status,
+    author = this.author.toUserEntity(),
+    course = this.course.toCourseEntity()
 )

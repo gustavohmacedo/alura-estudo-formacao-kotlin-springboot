@@ -18,7 +18,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/topics")
 class TopicController(
-    private val topicService: TopicService,
+    private val topicService: TopicService
 ) {
 
     @PostMapping

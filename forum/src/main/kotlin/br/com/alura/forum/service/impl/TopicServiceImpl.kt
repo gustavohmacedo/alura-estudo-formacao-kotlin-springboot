@@ -16,7 +16,7 @@ class TopicServiceImpl(
     private val topicRepository: TopicRepository,
     private val courseService: CourseService,
     private val userService: UserService,
-    private val notFoundMessage: String = "Topic not found!",
+    private val notFoundMessage: String = "Topic not found!"
 ) : TopicService {
 
      override fun save(topicRequest: TopicRequestDTO): TopicResponseDTO {
@@ -56,8 +56,7 @@ class TopicServiceImpl(
         val topic = this.getById(id)
         topic.title = topicUpdate.title
         topic.message = topicUpdate.message
-        topicRepository.save(topic.toTopicEntity())
-        return topic
+        return topicRepository.save(topic.toTopicEntity()).toTopicResponseDTO()
     }
 
     override fun delete(id: Long) {
