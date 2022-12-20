@@ -4,8 +4,8 @@
 
 - [x] API REST com Kotlin e Spring Boot: Camada Web
 - [x] API REST com Kotlin e Spring Boot: Camada de Persistência
-- [ ] APIs com Kotlin e Spring Data REST: Parte 1
-- [ ] APIs com Kotlin e Spring Data REST: Parte 2
+- [x] APIs com Kotlin e Spring Data REST: Parte 1
+- [x] APIs com Kotlin e Spring Data REST: Parte 2
 
  **2. Segurança e Deploy**
 
