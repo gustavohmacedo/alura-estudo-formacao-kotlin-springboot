@@ -43,10 +43,10 @@ class TopicController(
     }
 
     @GetMapping("/{id}")
-    fun getTopicById(
+    fun getOneTopic(
         @PathVariable id: Long,
     ): ResponseEntity<TopicResponseDTO> {
-        return ResponseEntity.status(HttpStatus.OK).body(topicService.getById(id))
+        return ResponseEntity.status(HttpStatus.OK).body(topicService.getTopicById(id))
     }
 
     @PutMapping("/{id}")

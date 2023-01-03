@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service
 class CourseServiceImpl(
     private val courseRepository: CourseRepository,
 ) : CourseService {
-    override fun getById(id: Long): CourseResponseDTO {
+
+    override fun getCourseById(id: Long): CourseResponseDTO {
         val course = courseRepository.findById(id)
         if (course.isEmpty) {
-            throw NotFoundException("Course is not found")
+            throw NotFoundException("Course not found")
         }
         return course.get().toCourseResponseDTO()
     }

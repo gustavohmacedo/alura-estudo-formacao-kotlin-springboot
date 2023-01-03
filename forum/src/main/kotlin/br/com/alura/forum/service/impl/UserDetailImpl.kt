@@ -3,7 +3,7 @@ package br.com.alura.forum.service.impl
 import br.com.alura.forum.entity.User
 import org.springframework.security.core.userdetails.UserDetails
 
-data class UserDetailImpl(
+class UserDetailImpl(
     private val user: User
 ) : UserDetails {
 

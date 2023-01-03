@@ -17,6 +17,7 @@ class SecurityConfiguration {
                 authorize
                     .anyRequest().authenticated()
             }
+            .csrf().disable()
             .httpBasic(withDefaults())
         return http.build()
 

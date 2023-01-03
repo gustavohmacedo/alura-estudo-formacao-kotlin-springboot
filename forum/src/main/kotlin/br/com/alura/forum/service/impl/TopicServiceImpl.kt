@@ -20,8 +20,8 @@ class TopicServiceImpl(
 ) : TopicService {
 
      override fun save(topicRequest: TopicRequestDTO): TopicResponseDTO {
-        val course = courseService.getById(topicRequest.courseId)
-        val author = userService.getById(topicRequest.authorId)
+        val course = courseService.getCourseById(topicRequest.courseId)
+        val author = userService.getUserById(topicRequest.authorId)
         val topic = Topic(
             title = topicRequest.title,
             message = topicRequest.message,
@@ -46,21 +46,21 @@ class TopicServiceImpl(
         }
     }
 
-    override fun getById(id: Long): TopicResponseDTO {
+    override fun getTopicById(id: Long): TopicResponseDTO {
         val topic: Topic = topicRepository
             .findById(id).orElseThrow { NotFoundException(notFoundMessage) }
         return topic.toTopicResponseDTO()
     }
 
     override fun update(id: Long, topicUpdate: TopicUpdateRequestDTO): TopicResponseDTO {
-        val topic = this.getById(id)
+        val topic = this.getTopicById(id)
         topic.title = topicUpdate.title
         topic.message = topicUpdate.message
         return topicRepository.save(topic.toTopicEntity()).toTopicResponseDTO()
     }
 
     override fun delete(id: Long) {
-        val topic = this.getById(id)
+        val topic = this.getTopicById(id)
         topicRepository.delete(topic.toTopicEntity())
     }
 
