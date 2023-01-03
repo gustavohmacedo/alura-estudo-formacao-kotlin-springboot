@@ -10,6 +10,6 @@ data class Role(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Int,
     private val name: String
-):GrantedAuthority{
+) : GrantedAuthority {
     override fun getAuthority() = name
 }
