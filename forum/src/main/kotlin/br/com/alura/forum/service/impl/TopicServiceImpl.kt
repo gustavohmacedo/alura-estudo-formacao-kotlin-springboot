@@ -22,12 +22,14 @@ class TopicServiceImpl(
      override fun save(topicRequest: TopicRequestDTO): TopicResponseDTO {
         val course = courseService.getCourseById(topicRequest.courseId)
         val author = userService.getUserById(topicRequest.authorId)
-        val topic = Topic(
+
+         val topic = Topic(
             title = topicRequest.title,
             message = topicRequest.message,
             course = course.toCourseEntity(),
             author = author.toUserEntity()
         )
+
         return topicRepository.save(topic).toTopicResponseDTO()
 
     }
@@ -41,7 +43,8 @@ class TopicServiceImpl(
         } else {
             topicRepository.findAll(pagination)
         }
-        return topics.map { it ->
+
+        return topics.map {
             it.toTopicResponseDTO()
         }
     }
@@ -53,10 +56,15 @@ class TopicServiceImpl(
     }
 
     override fun update(id: Long, topicUpdate: TopicUpdateRequestDTO): TopicResponseDTO {
-        val topic = this.getTopicById(id)
-        topic.title = topicUpdate.title
-        topic.message = topicUpdate.message
-        return topicRepository.save(topic.toTopicEntity()).toTopicResponseDTO()
+        getTopicById(id).let {
+            val topic = it.copy(
+                title = topicUpdate.title,
+                message = topicUpdate.message
+            )
+
+            return topicRepository.save(topic.toTopicEntity()).toTopicResponseDTO()
+        }
+
     }
 
     override fun delete(id: Long) {

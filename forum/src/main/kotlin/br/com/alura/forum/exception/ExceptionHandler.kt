@@ -61,5 +61,33 @@ class ExceptionHandler {
 
     }
 
+    @ExceptionHandler(UserException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleUser(
+        exception: UserException,
+        request: HttpServletRequest,
+    ): ApiErrorResponseDTO {
+        return ApiErrorResponseDTO(
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.name,
+            message = exception.message.toString(),
+            path = request.servletPath
+        )
+    }
+
+    @ExceptionHandler(RoleRegisteredException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleRole(
+        exception: RoleRegisteredException,
+        request: HttpServletRequest,
+    ): ApiErrorResponseDTO {
+        return ApiErrorResponseDTO(
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.name,
+            message = exception.message.toString(),
+            path = request.servletPath
+        )
+
+    }
 
 }

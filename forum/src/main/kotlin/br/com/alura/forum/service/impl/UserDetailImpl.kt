@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class UserDetailImpl(
     private val user: User
 ) : UserDetails {
-
+    //A interface UserDetails é utilizada para identificar uma classe que representa o usuário que será autenticado na aplicacao
     override fun getAuthorities() = user.role
 
     override fun getPassword() = user.password

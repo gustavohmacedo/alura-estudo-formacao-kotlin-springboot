@@ -7,7 +7,7 @@ import kotlin.collections.ArrayList
 
 @Entity
 @Table(name = "tb_topic")
-data class Topic(
+class Topic(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     var title: String,

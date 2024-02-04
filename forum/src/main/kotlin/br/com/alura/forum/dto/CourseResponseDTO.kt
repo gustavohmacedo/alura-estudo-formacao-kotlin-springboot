@@ -2,14 +2,14 @@ package br.com.alura.forum.dto
 
 import br.com.alura.forum.entity.Course
 
-class CourseResponseDTO(
-    val id: Long,
+data class CourseResponseDTO(
+    val id: Long? = null,
     val name: String,
     val category: String
 )
 
 fun Course.toCourseResponseDTO() = CourseResponseDTO(
-    id = this.id!!,
+    id = this.id,
     name = this.name,
     category = this.category
 )

@@ -17,6 +17,7 @@ class CourseServiceImpl(
         if (course.isEmpty) {
             throw NotFoundException("Course not found")
         }
+
         return course.get().toCourseResponseDTO()
     }
 

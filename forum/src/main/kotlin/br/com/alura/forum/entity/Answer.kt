@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "tb_answer")
-data class Answer(
+class Answer(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     val message: String,

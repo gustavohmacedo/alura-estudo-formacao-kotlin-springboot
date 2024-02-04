@@ -5,21 +5,21 @@ import br.com.alura.forum.enumeration.TopicStatus
 import java.time.LocalDateTime
 
 data class TopicResponseDTO(
-    val id: Long,
+    val id: Long? = null,
     var title: String,
     var message: String,
-    val creationDate: LocalDateTime,
-    val status: TopicStatus,
+    val creationDate: LocalDateTime?,
+    val status: TopicStatus?,
     val author: UserResponseDTO,
     val course: CourseResponseDTO
 )
 
 fun Topic.toTopicResponseDTO() = TopicResponseDTO(
-    id = this.id!!,
+    id = this.id,
     title = this.title,
     message = this.message,
-    creationDate = this.creationDate!!,
-    status = this.status!!,
+    creationDate = this.creationDate,
+    status = this.status,
     author = this.author.toUserResponseDTO(),
     course = this.course.toCourseResponseDTO()
 )

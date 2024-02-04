@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "tb_author")
-data class User(
+class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     val name: String,
@@ -14,5 +14,5 @@ data class User(
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_role")
-    val role: List<Role> = mutableListOf()
+    val role: List<Role>? = mutableListOf()
 )

@@ -11,19 +11,19 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
+import javax.transaction.Transactional
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api/topics")
+@RequestMapping("/api/topic")
 class TopicController(
     private val topicService: TopicService
 ) {
 
     @PostMapping
     @Transactional
-    fun saveTopic(
+    fun createTopic(
         @RequestBody @Valid topicRequest: TopicRequestDTO,
     ): ResponseEntity<TopicResponseDTO> {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -43,13 +43,13 @@ class TopicController(
     }
 
     @GetMapping("/{id}")
-    fun getOneTopic(
+    fun getTopic(
         @PathVariable id: Long,
     ): ResponseEntity<TopicResponseDTO> {
         return ResponseEntity.status(HttpStatus.OK).body(topicService.getTopicById(id))
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @Transactional
     fun updateTopic(
         @RequestBody @Valid topicUpdate: TopicUpdateRequestDTO,
