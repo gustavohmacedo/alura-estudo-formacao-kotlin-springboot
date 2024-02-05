@@ -33,8 +33,7 @@ class JWTAuthenticationFilter(
               para acessar rotas que exigem tal.*/
             val authentication = UsernamePasswordAuthenticationToken(user, null, user?.role)
             /*salvando o usuario no contexto da requisicao para que o Spring possa utilizar depois*/
-            val context = SecurityContextHolder.getContext()
-            context.authentication = authentication
+            SecurityContextHolder.getContext().authentication = authentication
 
         }
 

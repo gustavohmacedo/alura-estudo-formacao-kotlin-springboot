@@ -19,11 +19,11 @@ class TopicServiceImpl(
     private val notFoundMessage: String = "Topic not found!"
 ) : TopicService {
 
-     override fun save(topicRequest: TopicRequestDTO): TopicResponseDTO {
+    override fun save(topicRequest: TopicRequestDTO): TopicResponseDTO {
         val course = courseService.getCourseById(topicRequest.courseId)
         val author = userService.getUserById(topicRequest.authorId)
 
-         val topic = Topic(
+        val topic = Topic(
             title = topicRequest.title,
             message = topicRequest.message,
             course = course.toCourseEntity(),

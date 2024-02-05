@@ -9,3 +9,4 @@ INSERT INTO tb_role(name) VALUES('ADMIN');
 INSERT INTO tb_role(name) VALUES('USER');
 
 INSERT INTO tb_author_role(user_id,role_id) VALUES(1, 1);
+INSERT INTO tb_author_role(user_id,role_id) VALUES(1, 2);
